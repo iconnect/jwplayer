@@ -267,6 +267,7 @@
 			<arg line="-include-classes com.longtailvideo.jwplayer.player.Player" />
 			<!-- Player version -->
 			<arg line="-define=JWPLAYER::version,'${version}'"/>
+                        <arg line="-define=CONFIG::debugging,true"/>
 		</exec>
 		
 	</target>
