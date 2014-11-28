@@ -15,7 +15,6 @@ package com.longtailvideo.jwplayer.view {
 		function get display():IDisplayComponent;
 		function get dock():IDockComponent;
 		function get playlist():IPlaylistComponent;
-		function get logo():IPlayerComponent;
 		function get captions():CaptionsComponent;
 		function redraw():void;
 	}

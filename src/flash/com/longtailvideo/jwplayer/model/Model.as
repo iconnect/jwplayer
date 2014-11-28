@@ -191,7 +191,7 @@ package com.longtailvideo.jwplayer.model {
 		 * Player edition
 		 */
 		public function get edition():String {
-			return "";
+			return "PREMIUM";
 		}
 
 		public function get token():String {

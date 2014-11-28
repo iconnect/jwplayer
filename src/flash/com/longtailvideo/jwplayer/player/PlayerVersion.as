@@ -22,6 +22,6 @@ package com.longtailvideo.jwplayer.player {
             return true;
         }
 		public static var id:String = "";
-		public static var edition:String = "";
+		public static var edition:String = "PREMIUM";
 	}
 }

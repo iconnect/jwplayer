@@ -23,7 +23,6 @@ package com.longtailvideo.jwplayer.view {
 	import com.longtailvideo.jwplayer.utils.Stretcher;
 	import com.longtailvideo.jwplayer.view.components.ControlbarComponent;
 	import com.longtailvideo.jwplayer.view.components.DockComponent;
-	import com.longtailvideo.jwplayer.view.components.LogoComponent;
 	import com.longtailvideo.jwplayer.view.components.PlaylistComponent;
 	import com.longtailvideo.jwplayer.view.interfaces.IPlayerComponent;
 	import com.longtailvideo.jwplayer.view.interfaces.ISkin;
@@ -87,7 +86,6 @@ package com.longtailvideo.jwplayer.view {
 		protected var _displayMasker:MovieClip;
 		
 		protected var _image:Loader;
-		//protected var _logo:LogoComponent;
 
 		protected var layoutManager:PlayerLayoutManager;
 
@@ -205,8 +203,6 @@ package com.longtailvideo.jwplayer.view {
 			components.controlbar.addEventListener(MouseEvent.MOUSE_OUT, resumeFade);
 			components.dock.addEventListener(MouseEvent.MOUSE_OVER, preventFade);
 			components.dock.addEventListener(MouseEvent.MOUSE_OUT, resumeFade);
-			components.logo.addEventListener(MouseEvent.MOUSE_OVER, preventFade);
-			components.logo.addEventListener(MouseEvent.MOUSE_OUT, resumeFade);
 			components.captions.addEventListener(CaptionsEvent.JWPLAYER_CAPTIONS_CHANGED, forward);
 			components.captions.addEventListener(CaptionsEvent.JWPLAYER_CAPTIONS_LIST, forward);
 		}
@@ -343,7 +339,6 @@ package com.longtailvideo.jwplayer.view {
 			setupComponent(_components.display, n++);
 			_playlist = _components.playlist;
 			_playlistLayer.addChild(_playlist as DisplayObject);
-			setupComponent(_components.logo, n++);
 			setupComponent(_components.controlbar, n++);
 			cbLayer = n;
 			setupComponent(_components.dock, n++);
@@ -394,7 +389,6 @@ package com.longtailvideo.jwplayer.view {
 				_components.controlbar.resize(_player.config.width, _player.config.height);
 				_components.display.hide();
 				_components.dock.hide();
-				_components.logo.hide(true);
 				_components.captions.hide();
 				hideImage();
 				_mediaFade.fade(0);
@@ -414,7 +408,6 @@ package com.longtailvideo.jwplayer.view {
 					if (_completeState) _components.dock.show();
 				}
 				_components.controlbar.audioMode(false);
-				_components.logo.show();
 				showMedia();
 			}
 			
@@ -700,7 +693,6 @@ package com.longtailvideo.jwplayer.view {
 				case PlayerState.IDLE:
 					hideControls();
 					components.dock.show();
-					components.logo.show();
 					components.controlbar.hideFullscreen(false);
 					imageDelay.start();
 					break;
@@ -904,7 +896,6 @@ package com.longtailvideo.jwplayer.view {
 
 			if (_player.state != PlayerState.IDLE) {
 				_components.dock.hide();
-				_components.logo.hide(audioMode);
 			}
 		}
 		
@@ -915,9 +906,6 @@ package com.longtailvideo.jwplayer.view {
 				if (_instreamControls) {
 					_instreamControls.controlbar.show();
 	}
-			}
-			if (!audioMode) {
-				_components.logo.show();
 			}
 		}
 
@@ -962,20 +950,15 @@ package com.longtailvideo.jwplayer.view {
 		
 		public function getSafeRegion(includeBottom:Boolean = true):Rectangle {
 			var bounds:Rectangle = new Rectangle();
-			var logo:LogoComponent = _components.logo as LogoComponent;
 			var dock:DockComponent = _components.dock as DockComponent;
 			var dockShowing:Boolean = (dock.numButtons > 0) && _model.config.controls;
 			var cb:ControlbarComponent = _components.controlbar as ControlbarComponent;
-			var logoBounds:Rectangle = logo.getBounds(_componentsLayer);
-			var logoTop:Boolean = (logo.position.indexOf("top") == 0);
-			var logoShowing:Boolean = (logo.height > 0);
 
 			//safe region starts at the top left
 			
 			var dockLowpoint:Number = dockShowing ? dock.getBounds(_componentsLayer).bottom : 0
-			var logoLowpoint:Number = (logoTop && logoShowing) ? logoBounds.bottom : 0
 			//y is the visually lower (from the top, so the larger number) of the dock or the logo, or zero.
-			bounds.y = Math.floor( Math.max (dockLowpoint, logoLowpoint) );
+			bounds.y = Math.floor( Math.max (dockLowpoint) );
 			
 			//x i always zero
 			bounds.x = 0;
@@ -985,8 +968,7 @@ package com.longtailvideo.jwplayer.view {
 			
 			//height is the either the top of the logo (if its not at the top) or the top of the controlbar (if we are including the cb and controls are set to true), minus the  y.
 			var cbHeight:Number = (includeBottom && _model.config.controls) ? cb.getBounds(_componentsLayer).top : _player.config.height;
-			var logoHeight:Number = includeBottom ? (logo.height > 0 ? logoBounds.top : 0) : _player.config.height;
-			bounds.height = Math.floor( (logoTop ? cbHeight : logoHeight ) - bounds.y);
+			bounds.height = Math.floor(cbHeight - bounds.y);
 
 			return bounds;
 		}
