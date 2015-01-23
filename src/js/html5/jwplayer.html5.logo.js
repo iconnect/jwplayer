@@ -163,7 +163,6 @@
 
     logo.defaults = {
         prefix: utils.repo(),
-        file: 'logo.png',
         linktarget: '_top',
         margin: 8,
         hide: false,
