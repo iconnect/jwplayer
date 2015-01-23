@@ -7,3 +7,8 @@ node_modules
 bin-debug
 bin-release
 examples/panning/.DS_Store
+examples/panning/audioPanning.js
+examples/panning/audiopanning.swf
+examples/panning/cheetah.mp4
+examples/panning/server
+examples/panning/server.go
